@@ -5,10 +5,11 @@ import (
 	"github.com/labstack/echo/middleware"
 )
 
+// New instance of echo
 func New() *echo.Echo {
 	e := echo.New()
-	// middlewares
 
+	// middlewares
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
