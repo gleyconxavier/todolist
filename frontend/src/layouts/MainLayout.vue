@@ -75,12 +75,14 @@ export default {
         {
           title: 'Editar Atividade',
           caption: 'Editar uma tividade criada',
-          icon: 'list'
+          icon: 'list',
+          link: '/editar-atividade'
         },
         {
           title: 'Excluir Atividade',
           caption: 'Remover uma atividade.',
-          icon: 'delete'
+          icon: 'delete',
+          link: '/remover-atividade'
         }
       ]
     }

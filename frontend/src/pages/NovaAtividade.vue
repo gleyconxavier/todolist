@@ -23,11 +23,11 @@
       </div>
     </div>
     <q-img
-        class=""
-        spinner-color="white"
-        style="height: 168px; max-width: 180px"
-        alt="TodoList Ilustration"
-        src="~assets/to-do-list.svg"
+      class=""
+      spinner-color="white"
+      style="height: 168px; max-width: 180px"
+      alt="TodoList Ilustration"
+      src="~assets/to-do-list.svg"
     />
 
   </q-page>
