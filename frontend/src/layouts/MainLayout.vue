@@ -69,7 +69,8 @@ export default {
         {
           title: 'Criar Nova Atividade',
           caption: 'Criar uma nova atividade pendente.',
-          icon: 'create'
+          icon: 'create',
+          link: '/nova-atividade'
         },
         {
           title: 'Editar Atividade',
