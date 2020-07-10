@@ -92,7 +92,14 @@ module.exports = function (/* ctx */) {
       importStrategy: 'auto',
 
       // Quasar plugins
-      plugins: []
+      plugins: [
+        'Notify'
+      ],
+      config: {
+        notify: {
+          color: "accent"
+        }
+      }
     },
 
     // animations: 'all', // --- includes all animations
