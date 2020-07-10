@@ -1,10 +1,9 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
-	"strconv"
 
+	"github.com/gleyconxavier/todolist/backend/database"
 	"github.com/labstack/echo"
 )
 
@@ -14,13 +13,12 @@ type Activitie struct {
 	Title string `json:"title"`
 }
 
-var (
-	activities = map[int]*Activitie{}
-	seq        = 1
-)
-
 // GetActivities from db
 func GetActivities(c echo.Context) error {
+	db := database.ConnectDb()
+	activities := []Activitie{}
+	db.Select(&activities, "SELECT * FROM activities")
+
 	return c.JSON(http.StatusOK, activities)
 }
 
@@ -31,35 +29,40 @@ func CreateActivitie(c echo.Context) error {
 	if err := c.Bind(m); err != nil {
 		return err
 	}
-	m.ID = seq
-	activities[seq] = m
-	seq++
 
-	return c.JSON(http.StatusCreated, m.Title)
+	db := database.ConnectDb()
+	query := `INSERT INTO activities (title) VALUES ($1)`
+	db.MustExec(query, m.Title)
+
+	return c.JSON(http.StatusCreated, "Activitie created.")
 }
 
 // EditActivitie by id
 func EditActivitie(c echo.Context) error {
 
 	id := c.Param("id")
-	idPars, err := strconv.Atoi(id)
-	if err != nil {
-		// handle error
-		fmt.Println(err)
+
+	m := new(Activitie)
+	if err := c.Bind(m); err != nil {
+		return err
 	}
-	edited := activities[idPars]
-	return c.JSON(http.StatusOK, edited)
+
+	db := database.ConnectDb()
+	// query := `UPDATE activities SET (title) WHERE (id) VALUES ($1, $2)`
+	query := `UPDATE activities SET title = $1 WHERE id = $2;`
+	db.MustExec(query, m.Title, id)
+
+	return c.JSON(http.StatusOK, "Activitie updated.")
 }
 
 // RemoveActivitie by id
 func RemoveActivitie(c echo.Context) error {
 
 	id := c.Param("id")
-	idPars, err := strconv.Atoi(id)
-	if err != nil {
-		// handle error
-		fmt.Println(err)
-	}
-	removed := activities[idPars]
-	return c.JSON(http.StatusOK, removed)
+
+	db := database.ConnectDb()
+	query := `DELETE FROM activities WHERE id = $1;`
+	db.MustExec(query, id)
+
+	return c.JSON(http.StatusOK, "Activitie removed.")
 }
