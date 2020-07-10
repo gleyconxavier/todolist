@@ -48,7 +48,6 @@ func EditActivitie(c echo.Context) error {
 	}
 
 	db := database.ConnectDb()
-	// query := `UPDATE activities SET (title) WHERE (id) VALUES ($1, $2)`
 	query := `UPDATE activities SET title = $1 WHERE id = $2;`
 	db.MustExec(query, m.Title, id)
 
