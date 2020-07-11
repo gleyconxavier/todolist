@@ -1,14 +1,15 @@
 <template>
   <q-page class="flex flex-center">
 
-    <div class="row">
-      <q-img
+    <q-img
         class="q-mb-md"
         spinner-color="white"
         style="height: 168px; max-width: 230px"
         alt="TodoList Ilustration"
         src="~assets/to-do-list.svg"
       />
+
+    <div class="row">
       <div class="col-12" v-if="info">
         <q-field v-for="item in info.data" :key="item.id" class="" filled readonly>
             <div class="self-center">{{ item.title }}</div>
