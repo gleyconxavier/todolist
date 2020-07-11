@@ -10,17 +10,18 @@
     />
     <div class="row">
       <div class="col-12" v-if="info">
-        <q-input v-for="item in info.data" :key="item.id" v-model="item.title" filled>
+        <q-field v-for="(item, index) in info" :key="item.id" filled readonly>
+            <div class="self-center">{{ item.title }}</div>
 
           <template v-slot:after>
             <q-btn
               color="primary"
-              icon="edit"
-              label="Editar"
-              @click="editarAtividade(item.id, item.title)"
+              icon="delete_forever"
+              label="Remover"
+              @click="removerAtividade(item, index, info)"
             />
           </template>
-        </q-input>
+        </q-field>
         <q-ajax-bar
           ref="bar"
           position="bottom"
@@ -39,25 +40,28 @@ export default {
   name: 'PageIndex',
   data () {
     return {
-      info: ''
+      info: '',
+      filteredInfo: '',
+      item: ''
     }
   },
   mounted () {
     this.$axios
       .get('/listar-atividades')
-      .then(response => (this.info = response))
+      .then(response => (this.info = response.data))
       .catch(error => console.log(error))
   },
   methods: {
-    editarAtividade: function (id, title) {
+    removerAtividade: function (item, index, array) {
       const bar = this.$refs.bar
       bar.start()
-      const data = {
-        title: title
-      }
+
       this.$axios
-        .put('/atualizar-atividade/' + id, data)
-        .then(response => (alert('Editado com sucesso!')))
+        .delete('/remover-atividade/' + item.id)
+        .then(response => (alert('Removido com sucesso!')))
+        .then(response => {
+          array.splice(index, 1)
+        })
         .catch(error => console.log(error))
       bar.stop()
     }
